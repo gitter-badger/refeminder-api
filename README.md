@@ -1,2 +1,2 @@
-# refeminder-api
+# Refeminder API
 Repository work on Refeminder REST API
