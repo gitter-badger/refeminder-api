@@ -1,0 +1,15 @@
+{
+    "database": {
+        "name": "refeminder-api-dev",
+        "host": "localhost",
+        "user": null,
+        "password": null,
+        "port": null
+    },
+    "jwt": {
+        "secret": "eugostodecomercouve"
+    },
+    "app": {
+        "port": 3000
+    }
+}
