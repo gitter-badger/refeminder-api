@@ -15,18 +15,8 @@ var config = require('config')
         try{
 
             var decoded = jwt.decode(token, config.get('jwt.secret'));
-            var isExpired = moment(decoded.exp).isBefore(new Date());
-            if(isExpired){
-
-                var error = { code: 401, message: "Unauthorized" };
-                res.status(error.code).json(error);
-
-            }else{
-
-                req.id = decoded.id;
-                nxt();
-
-            }
+            req.id = decoded.id;
+            nxt();
 
         }catch(err){
 

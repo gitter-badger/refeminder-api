@@ -1,17 +1,17 @@
 var UserModel = require('../models/user')
-,   UserController = {
+,     UserController = {
 
     create: function(req, res, nxt){
 
         var model = new UserModel(req.body);
         model.save(function(err, data){
-            if(!err){
-                var success = { code: 201, message: "Great, your register was created", data: data, err: false };
-                res.status(success.code).json(success);   
-            }else{
-                var error = { code: 500, message: "Sorry, but your register wasn't created", data: err, err: true };
-                res.status(error.code).json(error);   
-            }
+
+            var response = !err 
+                ? { code: 201, message: "Great, your register was created", err: false, data: data } 
+                :  { code: 500, message: "Sorry, but your register wasn't created", err: true };
+    
+            res.status(response.code).json(response);
+
         });
 
     },
@@ -19,7 +19,11 @@ var UserModel = require('../models/user')
     retrieve: function(req, res, nxt){
 
         UserModel.find({}, function(err, data){
-            res.status(200).json(data);
+
+             var response = { code: 200,  message: "Great, all registers was retrieved",  err: false, data: data };
+
+            res.status(response.code).json(response);
+            
         });
 
     },
@@ -27,7 +31,13 @@ var UserModel = require('../models/user')
     retrieveById: function(req, res, nxt){
 
         UserModel.findOne({ "_id": req.params._id }, function(err, data){
-            res.status(200).json(data);
+
+            var response = data
+                ? { code: 200,  message: "Great, your register was retrieved", err: false,  data: data }
+                :  { code: 404, message: "Sorry, but your register wasn't retrieved", err: true };
+            
+            res.status(response.code).json(response);
+    
         });
 
     },
@@ -36,16 +46,16 @@ var UserModel = require('../models/user')
 
         var conditions = { "_id": req.id }
         , update = { $set: req.body }
-        , options = { multi: false };
+        , options = { new: true };
 
-        UserModel.update(conditions, update, options, function(err, data){
-            if(data.nModified === 1){
-                var success = { code: 200, message: "Great, your register was updated", err: false };
-                res.status(success.code).json(success);
-            }else{
-                var error = { code: 500, message: "Sorry, but your register wasn't updated", err: true };
-                res.status(error.code).json(error);
-            }
+        UserModel.findOneAndUpdate(conditions, update, options, function(err, data){
+
+            var response = data && !err
+                ? { code: 200, message: "Great, your register was updated", err: false, data: data }
+                :  { code: 404, message: "Sorry, but your register wasn't updated", err: true };
+
+            res.status(response.code).json(response);
+            
         });
 
     },
@@ -53,13 +63,13 @@ var UserModel = require('../models/user')
     delete: function(req, res, nxt){
 
         UserModel.remove({ "_id": req.id }, function(err, data){
-            if(data.ok >= 1 && data.result.n >= 1){
-                var success = { code: 200, message: "Great, your register was deleted", err: false };
-                res.status(success.code).json(success);
-            }else{
-                var error = { code: 500, message: "Sorry, but your register wasn't deleted", err: true };
-                res.status(error.code).json(error);
-            }
+
+            var response = data.result.ok >= 1 && data.result.n >= 1
+                ? { code: 200, message: "Great, your register was deleted", err: false }
+                :  { code: 404, message: "Sorry, but your register wasn't deleted", err: true };
+
+            res.status(response.code).json(response);
+            
         });
 
     }

@@ -1,11 +1,10 @@
 {
   "name": "refeminder-api",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "nodemon": "nodemon ./bin/www",
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha ./tests/unit/**/*.test.js"
+    "test": "export NODE_ENV='test' && istanbul cover ./node_modules/mocha/bin/_mocha ./tests/unit/**/*.spec.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -24,7 +23,9 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "charlatan": "^1.0.0",
     "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "supertest": "^1.2.0"
   }
 }

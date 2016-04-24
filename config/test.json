@@ -1,13 +1,13 @@
 {
     "database": {
-        "name": "refeminder-api-dev",
+        "name": "refeminder-api-test",
         "host": "localhost",
-        "uri": "localhost/refeminder-api-dev"
+        "uri": "localhost/refeminder-api-test"
     },
     "jwt": {
         "secret": "eugostodecomercouve"
     },
     "app": {
-        "port": 3000
+        "port": 4450
     }
 }
